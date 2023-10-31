@@ -1,5 +1,5 @@
 async def show_common_error(ctx, e):
-    await ctx.respond(f"Something went wrong ({e})", value="[Join support server](https://discord.gg/8hrhffR6aX) for help.")
+    await ctx.respond(f"Something went wrong ({e})")
 
 
 async def show_permission_error(ctx):
