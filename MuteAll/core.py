@@ -68,8 +68,15 @@ async def do_stfu(ctx: discord.ApplicationContext, mentions):
         if role.name == 'Shot Caller':
             shot_caller_role = role.id
 
+    # channel_members = []
+    # for channel in ctx.guild.voice_channels:
+    #     channel.guild.get_channel(channel.id)
+    #     channel_members = channel_members + [await member.guild.fetch_member(member.id) for member in channel.members]
+
     members = []
-    for member in ctx.author.voice.channel.members:
+    channel = ctx.guild.get_channel(ctx.author.voice.channel.id)
+    for member in [await member.guild.fetch_member(member.id) for member in channel.members]:
+        print(member.roles)
         if shot_caller_role not in [role.id for role in member.roles]:
             members.append(member)
     
