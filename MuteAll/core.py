@@ -64,7 +64,6 @@ async def do_stfu(ctx: discord.ApplicationContext, mentions):
         return await ctx.respond(canDo)
     
     await ctx.defer()
-    await asyncio.sleep(5)
     
     shot_caller_role = None
 
