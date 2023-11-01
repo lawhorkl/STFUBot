@@ -79,7 +79,6 @@ async def do_stfu(ctx: discord.ApplicationContext, mentions):
             members.append(member)
 
         await do(task="mute", members=members)
-        await do(task="unmute", members=members)
     await ctx.respond('👍')
 
 
