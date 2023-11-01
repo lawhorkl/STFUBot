@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from MuteAll.utils import can_do, get_affected_users
 
 
@@ -6,6 +7,8 @@ async def do(task="mute", members=None):
     if members is None:
         # members = []
         return
+    
+    print(members)
 
     for member in members:
         match task:
@@ -27,7 +30,7 @@ async def do(task="mute", members=None):
                 await member.edit(deafen=False)
 
 
-async def do_mute(ctx, mentions):
+async def do_mute(ctx: discord.ApplicationContext, mentions):
     canDo = can_do(ctx, requiredPermissions=["mute"])
     if canDo != "OK":
         return await ctx.respond(canDo)
@@ -54,6 +57,29 @@ async def do_unmute(ctx, mentions):
 
     await do(task="unmute", members=members)
     await ctx.respond("👍")
+
+async def do_stfu(ctx: discord.ApplicationContext, mentions):
+    canDo = can_do(ctx)
+    if canDo != "OK":
+        return await ctx.respond(canDo)
+    
+    await ctx.defer()
+    
+    shot_caller_role = None
+
+    for role in ctx.guild.roles:
+        if role.name == 'Shot Caller':
+            shot_caller_role = role.id
+
+    members = []
+    channel = ctx.guild.get_channel(ctx.author.voice.channel.id)
+    channel_members = await asyncio.gather(*[member.guild.fetch_member(member.id) for member in channel.members])
+    for member in channel_members:
+        if shot_caller_role not in [role.id for role in member.roles]:
+            members.append(member)
+
+        await do(task="mute", members=members)
+    await ctx.respond('👍')
 
 
 async def do_deafen(ctx, mentions):

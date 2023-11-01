@@ -1,6 +1,6 @@
 import discord
 import os
-from MuteAll.core import do_mute, do_unmute, do_deafen, do_undeafen, do_all, do_unall, add_reactions
+from MuteAll.core import do_mute, do_stfu, do_unmute, do_deafen, do_undeafen, do_all, do_unall, add_reactions
 from MuteAll.errors import show_common_error, show_permission_error
 from MuteAll.events import handle_ready, handle_reaction
 from MuteAll.utils import get_help, get_stats, handle_errors
@@ -37,13 +37,15 @@ async def stats(ctx: discord.ApplicationContext):
 
 ### MAIN COMMANDS ###
 
-@bot.slash_command(name="mute", description="server mute people!")
-async def mute(ctx: discord.ApplicationContext,
-               mentions: discord.Option(str, "mention user(s) or role(s)") = ""):
+# @bot.slash_command(name="mute", description="server mute people!")
+# async def mute(ctx: discord.ApplicationContext,
+#                mentions: discord.Option(str, "mention user(s) or role(s)") = ""):
 
-    await handle_errors(ctx, bot, do_mute, mentions)
+#     await handle_errors(ctx, bot, do_mute, mentions)
     
-
+@bot.slash_command(name="stfu", description="mute everyone but shot callers")
+async def stfu(ctx:discord.ApplicationContext, mentions: discord.Option(str, "mention user(s) or role(s)") = ""):
+    await handle_errors(ctx, bot, do_stfu, mentions)
 
 @bot.slash_command(name="m", description="server mute people!")
 async def mute(ctx: discord.ApplicationContext,
