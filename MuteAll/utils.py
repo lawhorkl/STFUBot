@@ -26,6 +26,7 @@ async def handle_errors(ctx, bot, function, mentions):
     except discord.Forbidden:  # the bot doesn't have the permission to do this
         return await show_permission_error(ctx)
     except Exception as e:
+        print(e)
         return await show_common_error(ctx, e)
 
 

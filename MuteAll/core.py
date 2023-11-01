@@ -71,22 +71,15 @@ async def do_stfu(ctx: discord.ApplicationContext, mentions):
         if role.name == 'Shot Caller':
             shot_caller_role = role.id
 
-    # channel_members = []
-    # for channel in ctx.guild.voice_channels:
-    #     channel.guild.get_channel(channel.id)
-    #     channel_members = channel_members + [await member.guild.fetch_member(member.id) for member in channel.members]
-
     members = []
     channel = ctx.guild.get_channel(ctx.author.voice.channel.id)
-    for member in [await member.guild.fetch_member(member.id) for member in channel.members]:
-        print(member.roles)
+    channel_members = await asyncio.gather(*[member.guild.fetch_member(member.id) for member in channel.members])
+    for member in channel_members:
         if shot_caller_role not in [role.id for role in member.roles]:
             members.append(member)
-    
 
-    print(members)
-
-    await do(task="mute", members=members)
+        await do(task="mute", members=members)
+        await do(task="unmute", members=members)
     await ctx.respond('👍')
 
 
