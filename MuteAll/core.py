@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from MuteAll.utils import can_do, get_affected_users
 
 
@@ -61,6 +62,9 @@ async def do_stfu(ctx: discord.ApplicationContext, mentions):
     canDo = can_do(ctx)
     if canDo != "OK":
         return await ctx.respond(canDo)
+    
+    await ctx.defer()
+    await asyncio.sleep(5)
     
     shot_caller_role = None
 
